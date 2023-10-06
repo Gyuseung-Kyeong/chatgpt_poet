@@ -1,5 +1,16 @@
+import os
+import requests
 from langchain.llms import CTransformers
 import streamlit as st
+
+MODEL_PATH = "llama-2-7b-chat.ggmlv3.q2_K.bin"
+MODEL_URL = "https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGML/resolve/main/llama-2-7b-chat.ggmlv3.q2_K.bin"
+
+if not os.path.exists(MODEL_PATH):
+    with st.spinner("Downloading the model..."):
+        r = requests.get(MODEL_URL, allow_redirects=True)
+        with open(MODEL_PATH, "wb") as f:
+            f.write(r.content)
 
 chat_model = CTransformers(model="llama-2-7b-chat.ggmlv3.q2_K.bin", model_type="llama")
 
